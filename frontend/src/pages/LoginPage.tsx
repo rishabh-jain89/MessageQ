@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import "./loginPage.css";
+import "./LoginPage.css";
 
-const  loginPage:React.FC = () => {
+const  LoginPage:React.FC = () => {
     const [formData, setFormData] = useState({userName: '',
     password: ''});
     const [errors, setErrors] = useState({userName: false,
@@ -38,44 +38,50 @@ const  loginPage:React.FC = () => {
     return (
         <div className="loginPageContainer">
             <form className="loginForm" onSubmit={handleSubmit} noValidate>
-                <div className="material-input-group">
+                <div className="loginInputGroup">
                     <input
                         type="text"
                         id="userName"
                         name="userName"
-                        className={`material-input ${errors.userName ? 'material-input--error' : ''}`}
+                        className={`inputField ${errors.userName ? 'inputFieldError' : ''}`}
                         value={formData.userName}
                         onChange={handleInputChange}
                         required
                     />
-                    <label htmlFor="userName" className="material-label">
+                    <label htmlFor="userName" className="InputLabel">
                         Username
                     </label>
-                    <div className="material-input-bar"></div>
+                    <div className="inputFieldBar"></div>
                 </div>
 
-                <div className="material-input-group">
+                <div className="loginInputGroup">
                     <input
                         type="password"
                         id="password"
                         name="password"
-                        className={`material-input ${errors.password ? 'material-input--error' : ''}`}
+                        className={`inputField ${errors.password ? 'inputFieldError' : ''}`}
                         value={formData.password}
                         onChange={handleInputChange}
                         required
                     />
-                    <label htmlFor="password" className="material-label">
+                    <label htmlFor="password" className="InputLabel">
                         Password
                     </label>
-                    <div className="material-input-bar"></div>
+                    <div className="inputFieldBar"></div>
                 </div>
 
-                <button type="submit" className="material-button">
-                    Submit
+                <button type="submit" className="loginButton">
+                    Login
                 </button>
             </form>
+            <p>
+                New User?
+            </p>
+            <button className="RegisterButton loginButton" onClick={handleSubmit}>
+                Register
+            </button>
         </div>
     );
 };
 
-export default loginPage;
+export default LoginPage;

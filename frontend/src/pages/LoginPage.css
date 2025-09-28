@@ -1,13 +1,127 @@
-.registerPage-container{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    padding: 10px;
-    background-color: lightblue;
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.loginPageContainer {
+    background-color: #ffffff;
+    padding: 40px;
     border-radius: 8px;
-    border-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+.loginForm {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    width: 100%;
+}
+
+.loginInputGroup {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.inputField {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    font-size: 16px;
+    color: #333;
+    background-color: transparent;
+    transition: border-bottom-color 0.3s ease;
+}
+
+.inputField:focus {
+    border-bottom-color: #6200ee;
+}
+
+.inputFieldBar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background-color: #6200ee;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.inputField:focus ~ .inputFieldBar {
+    transform: scaleX(1);
+}
+
+.InputLabel {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    font-size: 16px;
+    color: #999;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.inputField:focus ~ .InputLabel,
+.inputField:not(:placeholder-shown).inputField:valid ~ .InputLabel {
+    top: -18px;
+    font-size: 12px;
+    color: #6200ee;
+}
+
+.inputField.inputFieldError {
+    border-bottom-color: #f44336;
+}
+
+.inputField.inputFieldError ~ .InputLabel {
+    color: #f44336;
+}
+
+.inputField.inputFieldError ~ .inputFieldBar {
+    background-color: #f44336;
+    transform: scaleX(1);
+}
+
+.loginButton {
+    background-color: #6200ee;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 20px;
+}
+
+.loginButton:hover {
+    background-color: #5300d6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.loginButton:active {
+    background-color: #4500bb;
+}
+
+p{
+    text-align: center;
+    margin-top: 20px;
+}
+.RegisterButton {
+    margin-top: 0px;
+    width:100%;
 }
