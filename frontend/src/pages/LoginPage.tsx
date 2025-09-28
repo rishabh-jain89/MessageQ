@@ -1,7 +1,9 @@
 import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import "./LoginPage.css";
 
 const  LoginPage:React.FC = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({userName: '',
     password: ''});
     const [errors, setErrors] = useState({userName: false,
@@ -34,6 +36,12 @@ const  LoginPage:React.FC = () => {
         }
 
     };
+
+    const handleRegister = (e:React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        navigate("/register");
+    };
+
 
     return (
         <div className="loginPageContainer">
@@ -77,7 +85,7 @@ const  LoginPage:React.FC = () => {
             <p>
                 New User?
             </p>
-            <button className="RegisterButton loginButton" onClick={handleSubmit}>
+            <button className="RegisterButton loginButton" onClick={handleRegister}>
                 Register
             </button>
         </div>
