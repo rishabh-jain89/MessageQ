@@ -5,7 +5,7 @@ import "./RegisterPage.css"
 const RegisterPage:React.FC = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({name: '', email:'', userName:'', password:'', confirmPassword:''});
-    const [errors, setErrors] = useState({name:false, email:false, userName:false, password:false, confirmPassword:false});
+    const [errors, setErrors] = useState({name:false, email:false, userName:false, password:false, confirmPassword:false, passwordMismatch: false, passwordInvalid:false});
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
         setFormData((prevData) => ({
@@ -17,32 +17,49 @@ const RegisterPage:React.FC = () => {
     const handleSubmit = (e:React.FormEvent) => {
         e.preventDefault();
         let formIsValid = true;
-        let tempErrors = {name:false, email:false, userName:false, password:false, confirmPassword:false};
+        let tempErrors = {name:false, email:false, userName:false, password:false, confirmPassword:false, passwordMismatch:false, passwordInvalid:false};
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 
-        Object.keys(formData).forEach((key) => {
-            if(formData[key as keyof typeof formData] === ''){
-                tempErrors[key as keyof typeof formData] = true;
+
+        (Object.keys(formData) as Array<keyof typeof formData>).forEach((key) => {
+            if (formData[key].trim() === '') {
+                tempErrors[key] = true;
                 formIsValid = false;
             }
         });
+
+        if(!passwordPattern.test(formData.password)) {
+            tempErrors.passwordInvalid = true;
+            formIsValid = false;
+        }
+
+        if (
+            formData.password.trim() !== '' &&
+            formData.confirmPassword.trim() !== '' &&
+            formData.password !== formData.confirmPassword
+        ) {
+            tempErrors.passwordMismatch = true;
+            formIsValid = false;
+        }
 
         setErrors(tempErrors);
 
         if (formIsValid) {
             console.log("Form submitted successfully!");
             setFormData({name: '', email: '', userName: '', password: '', confirmPassword: ''});
+            navigate('/');
         }
     };
 
     const handleLogin = (e:React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        navigate('/');
+        navigate('/login');
     };
 
     return (
-        <div className="loginPageContainer">
-            <form className="loginForm" onSubmit={handleSubmit} noValidate>
-                <div className="loginInputGroup">
+        <div className="registerPageContainer">
+            <form className="registerForm" onSubmit={handleSubmit} noValidate>
+                <div className="registerInputGroup">
                     <input
                         type="text"
                         id="name"
@@ -58,7 +75,7 @@ const RegisterPage:React.FC = () => {
                     <div className="inputFieldBar"></div>
                 </div>
 
-                <div className="loginInputGroup">
+                <div className="registerInputGroup">
                     <input
                         type="text"
                         id="userName"
@@ -74,7 +91,7 @@ const RegisterPage:React.FC = () => {
                     <div className="inputFieldBar"></div>
                 </div>
 
-                <div className="loginInputGroup">
+                <div className="registerInputGroup">
                     <input
                         type="text"
                         id="email"
@@ -90,7 +107,7 @@ const RegisterPage:React.FC = () => {
                     <div className="inputFieldBar"></div>
                 </div>
 
-                <div className="loginInputGroup">
+                <div className="registerInputGroup">
                     <input
                         type="password"
                         id="password"
@@ -105,10 +122,19 @@ const RegisterPage:React.FC = () => {
                     </label>
                     <div className="inputFieldBar"></div>
                 </div>
+                {errors.passwordInvalid && (
+                    <p className="errorTextPassword">
+                        Password must contain:<br/>
+                        &#x2022;digit from 0-9<br/>
+                        &#x2022;small letter (a-z)<br/>
+                        &#x2022;Capital letter (A-Z)<br/>
+                        &#x2022;special character (!, @, #, $, %, ^, &, *)<br/>
+                    </p>
+                )}
 
-                <div className="loginInputGroup">
+                <div className="registerInputGroup">
                     <input
-                        type="confirmPassword"
+                        type="password"
                         id="confirmPassword"
                         name="confirmPassword"
                         className={`inputField ${errors.confirmPassword ? 'inputFieldError' : ''}`}
@@ -121,15 +147,20 @@ const RegisterPage:React.FC = () => {
                     </label>
                     <div className="inputFieldBar"></div>
                 </div>
+                {
+                    errors.passwordMismatch && (<p className="errorText">
+                    Passwords do not match.
+                    </p>)
+                }
 
-                <button type="submit" className="loginButton">
+                <button type="submit" className="registerButton">
                     Register
                 </button>
             </form>
             <p>
                 already have an account?
             </p>
-            <button className="RegisterButton loginButton" onClick={handleLogin}>
+            <button className="loginButton registerButton" onClick={handleLogin}>
                 Login
             </button>
         </div>

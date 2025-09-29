@@ -33,6 +33,7 @@ const  LoginPage:React.FC = () => {
         if(formIsValid){
             console.log("Form submitted successfully!");
             setFormData({userName:'', password:''});
+            navigate('/');
         }
 
     };
